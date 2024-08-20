@@ -3,7 +3,18 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework import status
 from rest_framework_simplejwt.tokens import RefreshToken
-from .serializers import UserRegistrationSerializer, CustomerSerializer
+from .serializers import (
+    UserRegistrationSerializer,
+    CustomerSerializer,
+    CustomTokenObtainPairSerializer,
+    UserSerializer,
+)
+from rest_framework_simplejwt.views import TokenObtainPairView
+from rest_framework import viewsets
+from django.contrib.auth import get_user_model
+from rest_framework.permissions import IsAuthenticated
+
+User = get_user_model()
 
 
 class UserRegistrationView(APIView):
@@ -15,6 +26,10 @@ class UserRegistrationView(APIView):
                 {"message": "User created successfully"}, status=status.HTTP_201_CREATED
             )
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class CustomTokenObtainPairView(TokenObtainPairView):
+    serializer_class = CustomTokenObtainPairSerializer
 
 
 class LogoutView(APIView):
@@ -48,3 +63,14 @@ class CustomerRegistrationView(APIView):
                 status=status.HTTP_201_CREATED,
             )
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class UserViewSet(viewsets.ReadOnlyModelViewSet):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+    permission_classes = [IsAuthenticated]
+
+    def list(self, request, *args, **kwargs):
+        print(f"User ID: {request.user.id}")
+        print(f"Username: {request.user.username}")
+        return super().list(request, *args, **kwargs)
