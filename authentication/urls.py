@@ -13,6 +13,7 @@ from .views import (
 
 router = DefaultRouter()
 router.register(r"customer", CustomerRegistrationView)
+router.register(r"users", UserViewSet)
 
 urlpatterns = [
     path("", include(router.urls)),
@@ -21,5 +22,5 @@ urlpatterns = [
     path("refresh/", TokenRefreshView.as_view(), name="token_refresh"),
     path("logout/", LogoutView.as_view(), name="logout"),
     # path("customer/", CustomerRegistrationView.as_view(), name="customer"),
-    path("users/", UserViewSet.as_view({"get": "list"}), name="users"),
+    # path("users/", UserViewSet.as_view({"get": "list"}), name="users"),
 ]

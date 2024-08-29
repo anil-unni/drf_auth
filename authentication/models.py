@@ -6,7 +6,6 @@ class CustomUser(AbstractUser):
     phone_number = models.CharField(max_length=15, blank=True, null=True)
 
 
-
 class Customer(models.Model):
     user = models.OneToOneField(
         CustomUser, on_delete=models.CASCADE, related_name="customer"
