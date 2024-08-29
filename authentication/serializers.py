@@ -47,6 +47,7 @@ class CustomerSerializer(serializers.ModelSerializer):
         user = user_serializer.save()
 
 
+
         customer = Customer.objects.create(
             user=user,
             address=validated_data.get("address"),
