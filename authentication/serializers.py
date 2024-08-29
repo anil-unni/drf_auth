@@ -46,6 +46,7 @@ class CustomerSerializer(serializers.ModelSerializer):
         user_serializer.is_valid(raise_exception=True)
         user = user_serializer.save()
 
+
         customer = Customer.objects.create(
             user=user,
             address=validated_data.get("address"),
