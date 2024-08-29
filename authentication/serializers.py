@@ -46,7 +46,12 @@ class CustomerSerializer(serializers.ModelSerializer):
         user_serializer.is_valid(raise_exception=True)
         user = user_serializer.save()
 
-        customer = Customer.objects.create(user=user, **validated_data)
+        customer = Customer.objects.create(
+            user=user,
+            address=validated_data.get("address"),
+            phone_number=validated_data.get("phone_number"),
+            date_of_birth=validated_data.get("date_of_birth"),
+        )
         return customer
 
 
@@ -60,4 +65,4 @@ class UserSerializer(serializers.ModelSerializer):
             "first_name",
             "last_name",
             "date_joined",
-        ) 
+        )

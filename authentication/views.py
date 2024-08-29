@@ -13,6 +13,7 @@ from rest_framework_simplejwt.views import TokenObtainPairView
 from rest_framework import viewsets
 from django.contrib.auth import get_user_model
 from rest_framework.permissions import IsAuthenticated
+from .models import Customer
 
 User = get_user_model()
 
@@ -53,8 +54,11 @@ class LogoutView(APIView):
             return Response({"detail": str(e)}, status=status.HTTP_400_BAD_REQUEST)
 
 
-class CustomerRegistrationView(APIView):
-    def post(self, request, *args, **kwargs):
+class CustomerRegistrationView(viewsets.ModelViewSet):
+    queryset = Customer.objects.all()
+    serializer_class = CustomerSerializer
+
+    def create(self, request, *args, **kwargs):
         serializer = CustomerSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
