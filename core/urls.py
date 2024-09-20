@@ -23,4 +23,5 @@ urlpatterns = [
     path("", include(swagger_urls)),
     path("admin/", admin.site.urls),
     path("auth/", include("authentication.urls")),
+    path("api/", include("accounts.urls")),
 ]
